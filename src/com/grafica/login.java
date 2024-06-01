@@ -5,7 +5,8 @@
 package com.grafica;
 
 import java.awt.Color;
-
+import tickets.Conexion;
+import java.sql.ResultSet;
 /**
  *
  * @author tacom
@@ -102,6 +103,11 @@ public class login extends javax.swing.JFrame {
                 UsuarioFieldMouseClicked(evt);
             }
         });
+        UsuarioField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UsuarioFieldActionPerformed(evt);
+            }
+        });
         bg.add(UsuarioField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 450, -1));
         bg.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 480, 10));
 
@@ -116,6 +122,11 @@ public class login extends javax.swing.JFrame {
         PSWField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 PSWFieldMouseClicked(evt);
+            }
+        });
+        PSWField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PSWFieldActionPerformed(evt);
             }
         });
         bg.add(PSWField, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 480, 20));
@@ -137,7 +148,30 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtLoginMouseClicked
-        if("1".equals(UsuarioField.getText())){
+        Conexion objConexion = new Conexion();
+        String usuario=new String(UsuarioField.getText());
+        String psw=new String(PSWField.getPassword());
+        try {
+             ResultSet resultado= objConexion.Consultar("Select * From Miembros");
+               while (resultado.next()){
+                   System.out.println(psw);
+                   System.out.println(usuario);
+                  
+                   if (resultado.getString("usuario").equals(usuario)&&resultado.getString("clave").equals(psw)){
+                       System.out.println("1");
+                        VentanaAd newV = new VentanaAd();
+                        newV.setVisible(true);
+                        this.dispose();
+               }
+                   
+                   
+               }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+       
+        
+        /*if("1".equals(UsuarioField.getText())){
             VentanaAd newV = new VentanaAd();
             newV.setVisible(true);
             this.dispose();
@@ -145,7 +179,7 @@ public class login extends javax.swing.JFrame {
             VentanaAd newV = new VentanaAd();
             newV.setVisible(true);
             this.dispose();
-        }
+        }*/
         
     }//GEN-LAST:event_BtLoginMouseClicked
 
@@ -158,6 +192,14 @@ public class login extends javax.swing.JFrame {
         PSWField.setText("");
         PSWField.setForeground(Color.black);
     }//GEN-LAST:event_PSWFieldMouseClicked
+
+    private void UsuarioFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UsuarioFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UsuarioFieldActionPerformed
+
+    private void PSWFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PSWFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PSWFieldActionPerformed
 
     /**
      * @param args the command line arguments
